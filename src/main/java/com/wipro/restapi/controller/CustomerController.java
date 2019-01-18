@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jayway.jsonpath.Predicate;
 import com.wipro.restapi.exception.InternalServerException;
 import com.wipro.restapi.model.AccountBalance;
 import com.wipro.restapi.model.Accounts;
@@ -117,6 +119,20 @@ public class CustomerController {
 		System.out.println("Size : " + list.get(0).getAccountsInfo().size());
 
 		return list;
+	}
+	
+	@RequestMapping("/custaccounts")
+	@Secured("USER")
+	public List<CustomerDetails> getBankDetailListByPhone(@RequestHeader(value = "mobilenumber") String mobNo) {
+		
+
+		List<CustomerDetails> list = new ArrayList<>();
+
+		list = customerDetailsReopsitory.findAll();
+		
+		List<CustomerDetails> predicate = list.stream().filter(mno -> mno.getMobileNumber().equals(mobNo)).collect(Collectors.toList());
+
+		return predicate;
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
