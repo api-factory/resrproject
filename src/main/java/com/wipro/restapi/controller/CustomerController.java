@@ -10,10 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jayway.jsonpath.Predicate;
 import com.wipro.restapi.exception.InternalServerException;
 import com.wipro.restapi.model.AccountBalance;
 import com.wipro.restapi.model.Accounts;
@@ -27,10 +25,10 @@ public class CustomerController {
 	@Autowired
 	CustomerDetailsReopsitory customerDetailsReopsitory;
 
-	@RequestMapping("/accounts")
-	public CustomerDetails getBankDetails(@RequestHeader(value = "mobNo") String mobNo) {
+	@RequestMapping("/accountdetails")
+	public CustomerDetails getBankDetails(@RequestHeader(value = "mobilenumber") String mobNo) {
 		if (mobNo.isEmpty()) {
-			throw new InternalServerException("mobNo-" + mobNo);
+			throw new InternalServerException("mobile number-" + mobNo);
 		}
 
 		CustomerDetails details = new CustomerDetails();
@@ -60,9 +58,9 @@ public class CustomerController {
 		return details;
 	}
 
-	@RequestMapping("/checkAccountBalance")
-	public AccountBalance checkAccountBalance(@RequestHeader(value = "mobNo") String mobNo,
-			@RequestHeader(value = "accountNo") String accountNo) {
+	@RequestMapping("/checkaccountbalance")
+	public AccountBalance checkAccountBalance(@RequestHeader(value = "mobilenumber") String mobNo,
+			@RequestHeader(value = "accountnumber") String accountNo) {
 
 		if (mobNo.isEmpty()) {
 			throw new InternalServerException("mobNo-" + mobNo);
@@ -77,41 +75,9 @@ public class CustomerController {
 		return balanceInfo;
 	}
 
-	@RequestMapping("/custaccountlist")
+	@RequestMapping("/customeraccountlist")
 	@Secured("USER")
-	public List<CustomerDetails> getBankDetailList(@RequestHeader(value = "mobNo") String mobNo) {
-		/*
-		 * if (mobNo.isEmpty()) { throw new InternalServerException("mobNo-" +
-		 * mobNo); }
-		 * 
-		 * List<CustomerDetails> list = new ArrayList<>();
-		 * 
-		 * CustomerDetails details=new CustomerDetails();
-		 * 
-		 * details.setCustomerName("custname");
-		 * details.setAadharNumber("1436543");
-		 * details.setPanCardNumber("CVDLY4563E");
-		 * 
-		 * 
-		 * Accounts account=new Accounts();
-		 * 
-		 * account.setId(2536L); account.setCustomerAccountName("custName");
-		 * account.setAccountNumber("DFG121154"); account.setBankName("BOI");
-		 * account.setAccountStatus("Active"); account.setAccountType("Saving");
-		 * account.setBranchName("Pune"); account.setBranchId("DFGH1254");
-		 * account.setIfsc("PSFG");
-		 * 
-		 * 
-		 * Set<Accounts> banklist=new HashSet<Accounts>();
-		 * banklist.add(account);
-		 * 
-		 * details.setAccountsInfo(banklist);
-		 * 
-		 * list.add(details);
-		 * 
-		 * return list;
-		 */
-
+	public List<CustomerDetails> getBankDetailList(@RequestHeader(value = "mobilenumber") String mobNo) {
 		List<CustomerDetails> list = new ArrayList<>();
 
 		list = customerDetailsReopsitory.findAll();
@@ -121,7 +87,7 @@ public class CustomerController {
 		return list;
 	}
 	
-	@RequestMapping("/custaccounts")
+	@RequestMapping("/customeraccounts")
 	@Secured("USER")
 	public List<CustomerDetails> getBankDetailListByPhone(@RequestHeader(value = "mobilenumber") String mobNo) {
 		
@@ -135,7 +101,7 @@ public class CustomerController {
 		return predicate;
 	}
 
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	/*@RequestMapping(value = "/login", method = RequestMethod.POST)
 
 	public String login() {
 
@@ -143,6 +109,6 @@ public class CustomerController {
 
 		return "welcome";
 
-	}
+	}*/
 
 }

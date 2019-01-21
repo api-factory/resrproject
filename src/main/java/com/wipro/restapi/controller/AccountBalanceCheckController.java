@@ -14,7 +14,7 @@ import com.wipro.restapi.model.Account;
 import com.wipro.restapi.service.AccountService;
 
 @RestController
-@RequestMapping("/bankABC")
+@RequestMapping("/bank")
 public class AccountBalanceCheckController {
 	@Autowired
 	private AccountService accountService;
@@ -25,7 +25,7 @@ public class AccountBalanceCheckController {
 	 * 
 	 * @return list of Accounts in bankABC
 	 */
-	@RequestMapping(value="/getAllBalance",method=RequestMethod.GET) 
+	@RequestMapping(value="/getbalancelist",method=RequestMethod.GET) 
 	public List<Account> getAllAccountListwithBalance() {
 		return accountService.getAllAccountListwithBalance(); 
 	}
@@ -36,7 +36,7 @@ public class AccountBalanceCheckController {
 	 * 
 	 * @return list of Accounts with Customer Number
 	*/
-	@GetMapping("/getCustomerBalance/{customerNumber}")
+	@GetMapping("/getcustomerbalance/{customerNumber}")
 	public List<Account> getCustomerBalance(@PathVariable String customerNumber)
 	{
 		return accountService.getCustomerAccountBalance(customerNumber);
@@ -47,7 +47,7 @@ public class AccountBalanceCheckController {
 	 * 
 	 * @return list of Accounts with Customer Number
 	*/
-	@GetMapping("/getBalanceByAccount/{accountNumber}")
+	@GetMapping("/getbalancebyaccount/{accountNumber}")
 	public Optional<Account> getBalanceByAccount(@PathVariable Long accountNumber)
 	{
 		return accountService.getBalanceByAccount(accountNumber);
